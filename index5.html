@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meru County Government Project Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #ecf0f1;
+            --meru-green: #1e8449;
+            --meru-gold: #d4af37;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e8449 0%, #27ae60 50%, #d4af37 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--meru-green) 0%, var(--meru-gold) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .title-section h1 {
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .status-tabs {
+            border-bottom: 3px solid var(--light-bg);
+            margin-bottom: 25px;
+        }
+
+        .nav-link {
+            border: none;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            padding: 12px 20px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--meru-green), var(--meru-gold));
+            color: white;
+            border: none;
+        }
+
+        .nav-link:not(.active) {
+            background: var(--light-bg);
+            color: var(--primary-color);
+        }
+
+        .nav-link:hover:not(.active) {
+            background: #d5dbdb;
+            transform: translateY(-2px);
+        }
+
+        .project-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .project-card .card-body {
+            padding: 15px;
+        }
+
+        .finished-card .card-header {
+            background: linear-gradient(135deg, var(--success-color), #58d68d);
+            color: white;
+        }
+
+        .proposed-card .card-header {
+            background: linear-gradient(135deg, var(--warning-color), #f7dc6f);
+            color: white;
+        }
+
+        .unfinished-card .card-header {
+            background: linear-gradient(135deg, var(--danger-color), #ec7063);
+            color: white;
+        }
+        /* Add these styles to your existing CSS */
+.department-view {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.project-details {
+    background: rgba(248, 249, 250, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 3px solid var(--meru-green);
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.status-section {
+    margin-bottom: 30px;
+}
+
+.bg-opacity-10 {
+    background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+}
+
+.text-opacity-75 {
+    opacity: 0.75;
+}
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .department-badge {
+            background: rgba(30, 132, 73, 0.1);
+            color: var(--meru-green);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 2px solid rgba(30, 132, 73, 0.2);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-finished {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .badge-proposed {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .badge-unfinished {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .add-project-btn {
+            background: linear-gradient(135deg, var(--meru-green) 0%, var(--meru-gold) 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-project-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--meru-green), var(--meru-gold));
+            color: white;
+            border: none;
+            padding: 20px 30px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--meru-green);
+            box-shadow: 0 0 0 0.2rem rgba(30, 132, 73, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--meru-green), var(--meru-gold));
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--meru-green);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.1);
+            border: none;
+            color: var(--danger-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .delete-btn:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        /* Department View Styles */
+        .department-view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(236, 240, 241, 0.5);
+            border-radius: 15px;
+        }
+        
+        .back-to-home {
+            background: linear-gradient(135deg, var(--meru-green), var(--meru-gold));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-section {
+            margin-top: 25px;
+        }
+        
+        .status-header {
+            background: rgba(236, 240, 241, 0.5);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .status-count {
+            background: var(--meru-green);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .department-projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .title-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .logo-placeholder {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .department-view-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .department-projects-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <div class="header">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <div class="logo-placeholder">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <div class="title-section">
+                        <h1>Meru County Government</h1>
+                        <p class="subtitle mb-0">Project Management System</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Department Cards -->
+            <div class="row mb-4" id="departmentCards">
+                <!-- Departments will be loaded here -->
+            </div>
+
+            <!-- Add Project Button -->
+            <div class="text-center mb-4">
+                <button class="btn btn-primary add-project-btn" data-bs-toggle="modal" data-bs-target="#addProjectModal">
+                    <i class="fas fa-plus me-2"></i>Add New Project
+                </button>
+            </div>
+
+            <!-- Status Tabs -->
+            <ul class="nav nav-tabs status-tabs" id="statusTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
+                        <i class="fas fa-list me-2"></i>All Projects
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab">
+                        <i class="fas fa-check-circle me-2"></i>Finished
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="proposed-tab" data-bs-toggle="tab" data-bs-target="#proposed" type="button" role="tab">
+                        <i class="fas fa-lightbulb me-2"></i>Proposed
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="unfinished-tab" data-bs-toggle="tab" data-bs-target="#unfinished" type="button" role="tab">
+                        <i class="fas fa-clock me-2"></i>Unfinished
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="statusTabsContent">
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div id="allProjects"></div>
+                </div>
+                <div class="tab-pane fade" id="finished" role="tabpanel">
+                    <div id="finishedProjects"></div>
+                </div>
+                <div class="tab-pane fade" id="proposed" role="tabpanel">
+                    <div id="proposedProjects"></div>
+                </div>
+                <div class="tab-pane fade" id="unfinished" role="tabpanel">
+                    <div id="unfinishedProjects"></div>
+                </div>
+            </div>
+            
+            <!-- Department View (hidden by default) -->
+            <div id="departmentView" style="display: none;">
+                <!-- Department projects will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-plus me-2"></i>Add New Project</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="projectForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectTitle" class="form-label">Project Title</label>
+                                <input type="text" class="form-control" id="projectTitle" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="projectDepartment" class="form-label">Department</label>
+                                <select class="form-select" id="projectDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="Health Services">Health Services</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                    <option value="Infrastructure">Infrastructure</option>
+                                    <option value="Water & Sanitation">Water & Sanitation</option>
+                                    <option value="Trade & Industry">Trade & Industry</option>
+                                    <option value="Youth & Sports">Youth & Sports</option>
+                                    <option value="Environment">Environment</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Administration">Administration</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="projectStatus" class="form-label">Status</label>
+                                <select class="form-select" id="projectStatus" required>
+                                    <option value="">Select Status</option>
+                                    <option value="finished">Finished</option>
+                                    <option value="proposed">Proposed</option>
+                                    <option value="unfinished">Unfinished</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="projectManager" class="form-label">Project Manager</label>
+                                <input type="text" class="form-control" id="projectManager" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="endDate">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="projectBudget" class="form-label">Budget (KSh)</label>
+                            <input type="number" class="form-control" id="projectBudget" min="0" step="0.01">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addProject()">Add Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // In-memory storage for projects
+        let projects = [];
+        let projectIdCounter = 1;
+        let currentDepartment = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some sample projects
+            addSampleProjects();
+            renderProjects();
+            renderDepartmentCards();
+            
+            // Activate the first tab
+            new bootstrap.Tab(document.getElementById('all-tab')).show();
+        });
+
+        // Add sample projects for demonstration
+        function addSampleProjects() {
+            const sampleProjects = [
+                {
+                    id: projectIdCounter++,
+                    title: "Meru County Hospital Expansion",
+                    department: "Health Services",
+                    status: "finished",
+                    manager: "Dr. Jane Mwangi",
+                    startDate: "2024-01-15",
+                    endDate: "2024-12-15",
+                    description: "Expansion of Meru County Hospital to include new maternity ward and ICU facilities.",
+                    budget: 150000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Rural Water Supply Initiative",
+                    department: "Water & Sanitation",
+                    status: "unfinished",
+                    manager: "Eng. Peter Kiprotich",
+                    startDate: "2024-03-01",
+                    endDate: "2025-08-31",
+                    description: "Installation of water supply systems in rural areas of Meru County.",
+                    budget: 250000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Youth Empowerment Program",
+                    department: "Youth & Sports",
+                    status: "proposed",
+                    manager: "Ms. Grace Njeru",
+                    startDate: "2025-02-01",
+                    endDate: "",
+                    description: "Comprehensive youth skills development and empowerment program.",
+                    budget: 50000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Primary School Renovation",
+                    department: "Education",
+                    status: "finished",
+                    manager: "Mr. Samuel Kimathi",
+                    startDate: "2023-06-01",
+                    endDate: "2024-01-30",
+                    description: "Renovation of 10 primary schools across Meru County.",
+                    budget: 75000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Agricultural Subsidy Program",
+                    department: "Agriculture",
+                    status: "unfinished",
+                    manager: "Dr. Michael Muriithi",
+                    startDate: "2024-04-15",
+                    endDate: "2025-03-31",
+                    description: "Providing subsidized seeds and fertilizers to local farmers.",
+                    budget: 120000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Road Construction Project",
+                    department: "Infrastructure",
+                    status: "unfinished",
+                    manager: "Eng. Susan Njeri",
+                    startDate: "2023-11-01",
+                    endDate: "2024-10-31",
+                    description: "Construction of 50km of rural access roads.",
+                    budget: 450000000
+                },
+                {
+                    id: projectIdCounter++,
+                    title: "Market Modernization",
+                    department: "Trade & Industry",
+                    status: "proposed",
+                    manager: "Mr. James Gitonga",
+                    startDate: "2025-03-01",
+                    endDate: "",
+                    description: "Modernization of 5 major markets in Meru County.",
+                    budget: 180000000
+                }
+            ];
+
+            projects = sampleProjects;
+            projectIdCounter = projects.length + 1;
+        }
+
+        // Add new project
+        function addProject() {
+            const form = document.getElementById('projectForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const project = {
+                id: projectIdCounter++,
+                title: document.getElementById('projectTitle').value,
+                department: document.getElementById('projectDepartment').value,
+                status: document.getElementById('projectStatus').value,
+                manager: document.getElementById('projectManager').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                description: document.getElementById('projectDescription').value,
+                budget: parseFloat(document.getElementById('projectBudget').value) || 0
+            };
+
+            projects.push(project);
+            
+            // Reset form and close modal
+            form.reset();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addProjectModal'));
+            modal.hide();
+            
+            // Re-render projects and department cards
+            renderProjects();
+            renderDepartmentCards();
+            
+            // If we're viewing a department, update that view too
+            if (currentDepartment) {
+                renderDepartmentProjects(currentDepartment);
+            }
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                projects = projects.filter(project => project.id !== id);
+                renderProjects();
+                renderDepartmentCards();
+                
+                // If we're in a department view, re-render that too
+                if (currentDepartment) {
+                    renderDepartmentProjects(currentDepartment);
+                }
+            }
+        }
+
+        // Create project card HTML
+        function createProjectCard(project) {
+            const statusClass = project.status === 'finished' ? 'finished-card' : 
+                               project.status === 'proposed' ? 'proposed-card' : 'unfinished-card';
+            
+            const statusBadgeClass = project.status === 'finished' ? 'badge-finished' : 
+                                    project.status === 'proposed' ? 'badge-proposed' : 'badge-unfinished';
+
+            const endDateDisplay = project.endDate ? new Date(project.endDate).toLocaleDateString() : 'TBD';
+            const budgetDisplay = project.budget ? `KSh ${project.budget.toLocaleString()}` : 'Not specified';
+
+            return `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card project-card ${statusClass}" style="position: relative;">
+                        <button class="delete-btn" onclick="deleteProject(${project.id})" title="Delete Project">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">${project.title}</h6>
+                            <span class="status-badge ${statusBadgeClass}">${project.status}</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <span class="department-badge">${project.department}</span>
+                            </div>
+                            <p class="card-text mb-2">${project.description}</p>
+                            <div class="small text-muted">
+                                <div class="mb-1"><i class="fas fa-user me-2"></i><strong>Manager:</strong> ${project.manager}</div>
+                                <div class="mb-1"><i class="fas fa-calendar me-2"></i><strong>Start:</strong> ${new Date(project.startDate).toLocaleDateString()}</div>
+                                <div class="mb-1"><i class="fas fa-calendar-check me-2"></i><strong>End:</strong> ${endDateDisplay}</div>
+                                <div><i class="fas fa-money-bill me-2"></i><strong>Budget:</strong> ${budgetDisplay}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render projects based on status
+        function renderProjects() {
+            const allProjects = document.getElementById('allProjects');
+            const finishedProjects = document.getElementById('finishedProjects');
+            const proposedProjects = document.getElementById('proposedProjects');
+            const unfinishedProjects = document.getElementById('unfinishedProjects');
+
+            // Clear existing content
+            [allProjects, finishedProjects, proposedProjects, unfinishedProjects].forEach(container => {
+                container.innerHTML = '';
+            });
+
+            if (projects.length === 0) {
+                const emptyState = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h4>No Projects Found</h4>
+                        <p class="text-muted">Start by adding your first project to the system.</p>
+                    </div>
+                `;
+                allProjects.innerHTML = emptyState;
+                return;
+            }
+
+            // Sort projects by status priority and date
+            const sortedProjects = [...projects].sort((a, b) => {
+                const statusOrder = { 'unfinished': 0, 'proposed': 1, 'finished': 2 };
+                if (statusOrder[a.status] !== statusOrder[b.status]) {
+                    return statusOrder[a.status] - statusOrder[b.status];
+                }
+                return new Date(b.startDate) - new Date(a.startDate);
+            });
+
+            // Render all projects
+            const allProjectsHTML = '<div class="row">' + sortedProjects.map(createProjectCard).join('') + '</div>';
+            allProjects.innerHTML = allProjectsHTML;
+
+            // Render projects by status
+            const finished = projects.filter(p => p.status === 'finished');
+            const proposed = projects.filter(p => p.status === 'proposed');
+            const unfinished = projects.filter(p => p.status === 'unfinished');
+
+            function renderStatusProjects(container, projectList, emptyMessage) {
+                if (projectList.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <h5>${emptyMessage}</h5>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = '<div class="row">' + projectList.map(createProjectCard).join('') + '</div>';
+                }
+            }
+
+            renderStatusProjects(finishedProjects, finished, 'No finished projects yet');
+            renderStatusProjects(proposedProjects, proposed, 'No proposed projects yet');
+            renderStatusProjects(unfinishedProjects, unfinished, 'No unfinished projects yet');
+        }
+        
+        // Get unique departments
+        function getUniqueDepartments() {
+            const departments = [...new Set(projects.map(project => project.department))];
+            return departments;
+        }
+        
+        // Get department statistics
+        function getDepartmentStats(department) {
+            const deptProjects = projects.filter(p => p.department === department);
+            
+            return {
+                total: deptProjects.length,
+                finished: deptProjects.filter(p => p.status === 'finished').length,
+                proposed: deptProjects.filter(p => p.status === 'proposed').length,
+                unfinished: deptProjects.filter(p => p.status === 'unfinished').length,
+                budget: deptProjects.reduce((sum, project) => sum + (project.budget || 0), 0)
+            };
+        }
+        
+        // Render department cards
+        function renderDepartmentCards() {
+            const departmentCards = document.getElementById('departmentCards');
+            const departments = getUniqueDepartments();
+            
+            if (departments.length === 0) {
+                departmentCards.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-sitemap"></i>
+                        <h4>No Departments Found</h4>
+                        <p class="text-muted">Add projects to see departments.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let cardsHTML = '';
+            
+            departments.forEach(department => {
+                const stats = getDepartmentStats(department);
+                
+                cardsHTML += `
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="stats-card" onclick="viewDepartment('${department}')">
+                            <div class="stats-number">${stats.total}</div>
+                            <div class="text-muted">${department}</div>
+                            <div class="mt-2 small">
+                                <span class="badge bg-success">${stats.finished} Finished</span>
+                                <span class="badge bg-warning">${stats.proposed} Proposed</span>
+                                <span class="badge bg-danger">${stats.unfinished} Unfinished</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            departmentCards.innerHTML = cardsHTML;
+        }
+        
+        // View department projects
+        function viewDepartment(department) {
+            currentDepartment = department;
+            
+            // Hide the main content and show department view
+            document.getElementById('statusTabs').style.display = 'none';
+            document.getElementById('statusTabsContent').style.display = 'none';
+            document.getElementById('departmentView').style.display = 'block';
+            
+            renderDepartmentProjects(department);
+        }
+        
+        // Render projects for a specific department
+        function renderDepartmentProjects(department) {
+            const deptProjects = projects.filter(p => p.department === department);
+            
+            const finished = deptProjects.filter(p => p.status === 'finished');
+            const proposed = deptProjects.filter(p => p.status === 'proposed');
+            const unfinished = deptProjects.filter(p => p.status === 'unfinished');
+            
+            let departmentHTML = `
+                <div class="department-view">
+                    <div class="department-view-header">
+                        <h3><i class="fas fa-sitemap me-2"></i>${department} Department</h3>
+                        <button class="back-to-home" onclick="backToHome()">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Home
+                        </button>
+                    </div>
+            `;
+            
+            // Render each status section
+            departmentHTML += renderStatusSection('finished', finished, 'Finished Projects');
+            departmentHTML += renderStatusSection('proposed', proposed, 'Proposed Projects');
+            departmentHTML += renderStatusSection('unfinished', unfinished, 'Unfinished Projects');
+            
+            departmentHTML += `</div>`;
+            
+            document.getElementById('departmentView').innerHTML = departmentHTML;
+        }
+        
+        // Render a status section for department view
+        function renderStatusSection(status, projects, title) {
+            if (projects.length === 0) {
+                return `
+                    <div class="status-section">
+                        <div class="status-header">
+                            <div class="status-count">0</div>
+                            <h4 class="status-title">${title}</h4>
+                        </div>
+                        <div class="alert alert-info">
+                            No ${status} projects for this department
+                        </div>
+                    </div>
+                `;
+            }
+            
+            let projectsHTML = '<div class="department-projects-container">';
+            projects.forEach(project => {
+                projectsHTML += createProjectCard(project);
+            });
+            projectsHTML += '</div>';
+            
+            return `
+                <div class="status-section">
+                    <div class="status-header">
+                        <div class="status-count">${projects.length}</div>
+                        <h4 class="status-title">${title}</h4>
+                    </div>
+                    ${projectsHTML}
+                </div>
+            `;
+        }
+        
+        // Go back to home view
+        function backToHome() {
+            currentDepartment = null;
+            
+            // Show the main content and hide department view
+            document.getElementById('statusTabs').style.display = 'flex';
+            document.getElementById('statusTabsContent').style.display = 'block';
+            document.getElementById('departmentView').style.display = 'none';
+            
+            // Activate the first tab
+            new bootstrap.Tab(document.getElementById('all-tab')).show();
+        }
+
+        // Set minimum date for start date to today
+        document.getElementById('startDate').min = new Date().toISOString().split('T')[0];
+        document.getElementById('endDate').min = new Date().toISOString().split('T')[0];
+
+        // Update end date minimum when start date changes
+        document.getElementById('startDate').addEventListener('change', function() {
+            document.getElementById('endDate').min = this.value;
+        });
+    </script>
+</body>
+</html>
