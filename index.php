@@ -1,7 +1,16 @@
 <?php
+
+// Enable error reporting
+ini_set('display_errors', 0);  // Don't show on browser
+ini_set('log_errors', 1); // Log errors
+ini_set('error_log', __DIR__ . '/debug.log'); // Log to file
+error_reporting(E_ALL); // Report all errors
+
+
 session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $isAdmin = $isLoggedIn && $_SESSION['role'] === 'admin';
+$isSuperAdmin = $isLoggedIn && $_SESSION['role'] === 'super_admin'; // New super admin role
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,8 +43,11 @@ $isAdmin = $isLoggedIn && $_SESSION['role'] === 'admin';
                         <?php else: ?>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
                         <?php endif; ?>
-                        <?php if ($isLoggedIn && $isAdmin): ?>
+                        <?php if ($isAdmin): ?>
                             <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#registerModal">Register User</button>
+                        <?php endif; ?>
+                        <?php if ($isSuperAdmin): ?>
+                            <button class="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#addAdminModal">Add Admin</button>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -333,6 +345,63 @@ $isAdmin = $isLoggedIn && $_SESSION['role'] === 'admin';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Admin Modal (Super Admin Only) -->
+    <div class="modal fade" id="addAdminModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-shield me-2"></i>Add New Admin</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAdminForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="adminFullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="adminFullName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="adminDepartment" class="form-label">Department</label>
+                                <select class="form-select" id="adminDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="Health Services">Health Services</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                    <option value="Infrastructure">Infrastructure</option>
+                                    <option value="Water & Sanitation">Water & Sanitation</option>
+                                    <option value="Trade & Industry">Trade & Industry</option>
+                                    <option value="Youth & Sports">Youth & Sports</option>
+                                    <option value="Environment">Environment</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Administration">Administration</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adminEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="adminEmail" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="adminPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="adminPassword" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="adminConfirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="adminConfirmPassword" required>
+                            </div>
+                        </div>
+                        <div id="addAdminError" class="text-danger" style="display: none;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addAdmin()">Add Admin</button>
                 </div>
             </div>
         </div>
